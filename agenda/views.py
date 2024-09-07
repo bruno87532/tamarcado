@@ -15,16 +15,10 @@ def agendamentosDetail(request, id):
         return JsonResponse(serializer.data)
     if request.method == "PATCH":
         obj = get_object_or_404(Agendamento, id=id)
-        data = request.data
-        serializer = AgendamentoSerializer(data=data, partial=True)
+        serializer = AgendamentoSerializer(obj, request.data, partial=True)
         if serializer.is_valid():
-            validatedData = serializer.validated_data
-            obj.dataHorario = validatedData.get("dataHorario", obj.dataHorario)
-            obj.nomeCliente = validatedData.get("nomeCliente", obj.nomeCliente)
-            obj.emailCliente = validatedData.get("emailCliente", obj.emailCliente)
-            obj.telefoneCliente = validatedData.get("telefoneCliente", obj.telefoneCliente)
-            obj.save()
-            return JsonResponse(validatedData, status=201)
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
     if request.method == "DELETE":
         obj = get_object_or_404(Agendamento, id=id)
@@ -42,12 +36,6 @@ def agendamentoList(request):
         data = request.data  
         serializer = AgendamentoSerializer(data=data)
         if serializer.is_valid():
-            validatedData = serializer.validated_data
-            Agendamento.objects.create(
-                dataHorario = validatedData["dataHorario"],
-                nomeCliente = validatedData["nomeCliente"],
-                emailCliente = validatedData["emailCliente"],
-                telefoneCliente = validatedData["telefoneCliente"],
-            )
+            serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
