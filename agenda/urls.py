@@ -1,6 +1,6 @@
 from django.urls import path
-from agenda.views import agendamentosDetail, agendamentoList
+from agenda.views import AgendamentosDetail, AgendamentoList
 urlpatterns = [
-    path("agendamentos/", agendamentoList, name="agendamentoList"),
-    path("agendamentos/<int:id>/", agendamentosDetail, name="agendamentosDetail"),
+    path("agendamentos/", AgendamentoList.as_view(), name="AgendamentoList"),
+    path("agendamentos/<int:id>/", AgendamentosDetail.as_view(), name="AgendamentosDetail"),
 ]
