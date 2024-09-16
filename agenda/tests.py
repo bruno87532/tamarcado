@@ -34,7 +34,7 @@ class TestAtualizaAgendamento(APITestCase):
         response_patch = self.client.patch("/api/agendamentos/1/", {
             "dataHorario": "2024-09-20T20:00:00Z"
         }, format="json")
-        self.assertEqual(response_patch.status_code, 201)
+        self.assertEqual(response_patch.status_code, 200)
         response_get = self.client.get("/api/agendamentos/")
         response_data = json.loads(response_get.content)
         self.assertEqual(response_data[0]["dataHorario"], "2024-09-20T20:00:00Z")
